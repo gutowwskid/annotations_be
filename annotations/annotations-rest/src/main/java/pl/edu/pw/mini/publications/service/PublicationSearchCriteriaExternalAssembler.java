@@ -1,4 +1,4 @@
-package pl.edu.pw.mini.service;
+package pl.edu.pw.mini.publications.service;
 
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.core.tools.DateUtils;

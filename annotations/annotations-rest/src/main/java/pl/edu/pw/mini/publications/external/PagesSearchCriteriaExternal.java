@@ -6,18 +6,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.edu.pw.mini.common.external.ListRequestExternal;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PublicationSearchCriteriaExternal extends ListRequestExternal {
-    private String name;
-    private Date created_before;
-    private Date created_after;
-    private Date publication_date_before;
-    private Date publication_date_after;
-    private String source;
+public class PagesSearchCriteriaExternal extends ListRequestExternal {
+    private Long publication_id;
     private String status;
 }

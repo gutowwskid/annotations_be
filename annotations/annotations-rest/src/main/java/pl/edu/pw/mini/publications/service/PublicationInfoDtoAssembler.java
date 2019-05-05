@@ -1,4 +1,4 @@
-package pl.edu.pw.mini.service;
+package pl.edu.pw.mini.publications.service;
 
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.core.tools.DateUtils;
@@ -9,7 +9,7 @@ import pl.edu.pw.mini.publications.external.PublicationInfoExternal;
 import java.util.Optional;
 
 @Component
-public class PublicationInfoAssemblerDto extends DtoAssebler<PublicationInfoExternal, PublicationInfoDto> {
+public class PublicationInfoDtoAssembler extends DtoAssebler<PublicationInfoExternal, PublicationInfoDto> {
 
     @Override
     public PublicationInfoDto toDto(PublicationInfoExternal input) {
