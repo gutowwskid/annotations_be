@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponseExternal {
+public class UserExternal {
     private Long id;
     private String username;
     private String token;
+    private String email;
     private String first_name;
     private String last_name;
     private Boolean is_annotator;

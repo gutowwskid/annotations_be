@@ -10,6 +10,8 @@ import pl.edu.pw.mini.core.security.authorization.AllowAuthenticated;
 import pl.edu.pw.mini.model.JsonListChunk;
 import pl.edu.pw.mini.model.JsonListRequest;
 
+import java.util.List;
+
 @RestController
 public class AnnotationsController {
 
@@ -24,7 +26,7 @@ public class AnnotationsController {
 
     @AllowAuthenticated
     @RequestMapping(path = "/annotations/new", method = RequestMethod.POST, produces = "application/json")
-    public Long createAnnotation(@RequestBody AnnotationCreationDto creationDto) {
+    public List<Long> createAnnotation(@RequestBody List<AnnotationCreationDto> creationDto) {
         return service.createAnnotation(creationDto);
     }
 }

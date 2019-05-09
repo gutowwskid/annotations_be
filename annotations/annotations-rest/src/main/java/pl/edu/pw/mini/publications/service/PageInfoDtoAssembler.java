@@ -1,7 +1,7 @@
 package pl.edu.pw.mini.publications.service;
 
 import org.springframework.stereotype.Component;
-import pl.edu.pw.mini.core.tools.DtoAssebler;
+import pl.edu.pw.mini.core.tools.DtoAssembler;
 import pl.edu.pw.mini.publications.PageInfoDto;
 import pl.edu.pw.mini.publications.PageStatus;
 import pl.edu.pw.mini.publications.external.PageInfoExternal;
@@ -9,7 +9,7 @@ import pl.edu.pw.mini.publications.external.PageInfoExternal;
 import java.util.Optional;
 
 @Component
-public class PageInfoDtoAssembler extends DtoAssebler<PageInfoExternal, PageInfoDto> {
+public class PageInfoDtoAssembler extends DtoAssembler<PageInfoExternal, PageInfoDto> {
 
     @Override
     public PageInfoDto toDto(PageInfoExternal input) {

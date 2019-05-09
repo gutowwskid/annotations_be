@@ -13,6 +13,7 @@ import pl.edu.pw.mini.model.JsonListChunk;
 import pl.edu.pw.mini.model.JsonListRequest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnnotationService {
@@ -40,9 +41,9 @@ public class AnnotationService {
         );
     }
 
-    public Long createAnnotation(AnnotationCreationDto creationDto) {
-        AddAnnotationExternal external = addAnnotationExternalAssembler.toAddAnnotationExternal(creationDto);
-        AnnotationInfoExternal annotationInfoExternal = restInvoker.addAnnotation(external);
-        return annotationInfoExternal.getId();
+    public List<Long> createAnnotation(List<AnnotationCreationDto> creationDto) {
+        List<AddAnnotationExternal> external = addAnnotationExternalAssembler.toExternalList(creationDto);
+        List<AnnotationInfoExternal> annotationInfoExternal = restInvoker.addAnnotation(external);
+        return annotationInfoExternal.stream().map(AnnotationInfoExternal::getId).collect(Collectors.toList());
     }
 }

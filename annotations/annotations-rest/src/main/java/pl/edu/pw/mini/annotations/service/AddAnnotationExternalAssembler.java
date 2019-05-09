@@ -8,23 +8,27 @@ import pl.edu.pw.mini.annotations.AnnotationCreationDto;
 import pl.edu.pw.mini.annotations.external.AddAnnotationExternal;
 import pl.edu.pw.mini.core.exceptions.BusinessException;
 import pl.edu.pw.mini.core.invoker.rest.Rest;
+import pl.edu.pw.mini.core.tools.ExternalAssembler;
 
 @Component
-public class AddAnnotationExternalAssembler {
+public class AddAnnotationExternalAssembler extends ExternalAssembler<AnnotationCreationDto, AddAnnotationExternal> {
 
     @Rest
     @Autowired
     private ObjectMapper objectMapper;
 
-    public AddAnnotationExternal toAddAnnotationExternal(AnnotationCreationDto creationDto) {
+    @Override
+    public AddAnnotationExternal toExternal(AnnotationCreationDto input) {
         AddAnnotationExternal external = new AddAnnotationExternal();
-        external.setPage(creationDto.getPageId());
+        external.setPage(input.getPageId());
+        /*
         try {
-            external.setData(objectMapper.writeValueAsString(creationDto.getAnnotation()));
+            external.setData(objectMapper.writeValueAsString(input.getAnnotation()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new BusinessException("SERIALIZATION_ERROR", e.getMessage());
-        }
+        }*/
+        external.setData(input.getAnnotation());
         return external;
     }
 }

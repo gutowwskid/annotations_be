@@ -13,6 +13,7 @@ import pl.edu.pw.mini.core.invoker.rest.Rest;
 import pl.edu.pw.mini.core.invoker.rest.RestInvoker;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -31,7 +32,7 @@ public class AnnotationRestInvoker {
         return restInvoker.get(url, params, new ParameterizedTypeReference<ListResponseExternal<AnnotationInfoExternal>>() {});
     }
 
-    public AnnotationInfoExternal addAnnotation(AddAnnotationExternal addAnnotationExternal) {
-        return restInvoker.post("/publications/annotations", Collections.emptyMap(), addAnnotationExternal, new ParameterizedTypeReference<AnnotationInfoExternal>() {});
+    public List<AnnotationInfoExternal> addAnnotation(List<AddAnnotationExternal> addAnnotationExternal) {
+        return restInvoker.post("/publications/annotations", Collections.emptyMap(), addAnnotationExternal, new ParameterizedTypeReference<List<AnnotationInfoExternal>>() {});
     }
 }

@@ -9,15 +9,14 @@ import pl.edu.pw.mini.annotations.external.AnnotationInfoExternal;
 import pl.edu.pw.mini.core.exceptions.BusinessException;
 import pl.edu.pw.mini.core.invoker.rest.Rest;
 import pl.edu.pw.mini.core.tools.DateUtils;
-import pl.edu.pw.mini.core.tools.DtoAssebler;
-import pl.edu.pw.mini.core.tools.MockLogger;
+import pl.edu.pw.mini.core.tools.DtoAssembler;
 import pl.edu.pw.mini.users.UserDto;
 
 import java.io.IOException;
 import java.util.Optional;
 
 @Component
-public class AnnotationInfoDtoAssembler extends DtoAssebler<AnnotationInfoExternal, AnnotationInfoDto> {
+public class AnnotationInfoDtoAssembler extends DtoAssembler<AnnotationInfoExternal, AnnotationInfoDto> {
 
     @Rest
     @Autowired
@@ -27,20 +26,24 @@ public class AnnotationInfoDtoAssembler extends DtoAssebler<AnnotationInfoExtern
     public AnnotationInfoDto toDto(AnnotationInfoExternal input) {
         AnnotationInfoDto dto = new AnnotationInfoDto();
         dto.setId(input.getId());
-        dto.setCreator(UserDto.builder()
-                .displayName(MockLogger.getString("Jank Kowalski"))
-                .id(input.getId())
-                .build());
+
+        Optional.of(input).map(AnnotationInfoExternal::getUser).map(user -> UserDto.builder()
+                    .displayName(user.getFirst_name() + " " + user.getLast_name())
+                    .id(user.getId())
+                    .build()).
+                ifPresent(dto::setCreator);
         dto.setStatus(input.getAnnotation_status());
         Optional.of(input).map(AnnotationInfoExternal::getCreated).map(DateUtils::toLocalDate).ifPresent(dto::setCreationDate);
-
+        dto.setData(input.getData());
+        dto.setPageId(input.getPage());
+/*
         try {
             AnnotationDto annotationDto = objectMapper.readValue(input.getData(), AnnotationDto.class);
             dto.setData(annotationDto);
         } catch (IOException e) {
             e.printStackTrace();
             throw new BusinessException("DESERIALIZATION_ERROR", e.getMessage());
-        }
+        }*/
         return dto;
     }
 }
