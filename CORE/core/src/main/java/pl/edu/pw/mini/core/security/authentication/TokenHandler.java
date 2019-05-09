@@ -47,7 +47,7 @@ public class TokenHandler {
     }
     public Token parseToken(String rawToken, HttpServletRequest request) {
         Claims claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(rawToken).getBody();
-        if(!claims.get("ip").equals(request.getRemoteAddr())) {
+        if(!claims.get(IP).equals("*") && !claims.get(IP).equals(request.getRemoteAddr())) {
             throw new JwtException("Different user IP!");
         }
 

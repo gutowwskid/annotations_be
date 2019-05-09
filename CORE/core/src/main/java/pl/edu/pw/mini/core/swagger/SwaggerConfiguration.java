@@ -24,7 +24,7 @@ public class SwaggerConfiguration {
                         .modelRef(new ModelRef("string"))
                         .parameterType("header")
                         .required(false)
-                        .defaultValue("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJJRCIsInByb2ZpbGUiOiJBTk5PVEFUT1IiLCJpcCI6IjEyNy4wLjAuMSIsInVzZXJOYW1lIjoiSmFuIEtvd2Fsc2tpIiwiZXh0ZXJuYWxUb2tlbiI6IjJlZGE1MDdkNmE5YWFkYTZlYjIwZmM3ZDljMGFkZTllZDc4NjcwMjgiLCJleHAiOjE1ODg5MzA5OTMsImlzcyI6Im1pbmlfcHciLCJpYXQiOjE1NTczMDg1NDksImp0aSI6IjJhMWU4ZTA1LTQ3YjgtNGMyOC1hNWJhLTY2MzNhZjgzOTE5MyJ9.JOsAfKzmCHAzuiyHtHWPXzeUyYP8hRM4PCbeZzInruY")
+                        .defaultValue("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJJRCIsInByb2ZpbGUiOiJBTk5PVEFUT1IiLCJpcCI6IioiLCJ1c2VyTmFtZSI6IkFubm90YXRpb25zIFRlYW0iLCJleHRlcm5hbFRva2VuIjoiZTk2OThlZWM4YTI0ZjMyN2QxOWIzZTdlZTkwODg3NTg1NjE3MjViZSIsImV4cCI6MTU4ODkzMDk5MywiaXNzIjoibWluaV9wdyIsImlhdCI6MTU1NzMwODU0OSwianRpIjoiMmExZThlMDUtNDdiOC00YzI4LWE1YmEtNjYzM2FmODM5MTkzIn0.Pw8epqRfOPrYHgdIdezT-NSTQmDhJFPQD5ZXiW7HW5E")
                         .build())))
                 .select()
                 .apis(RequestHandlerSelectors.any())

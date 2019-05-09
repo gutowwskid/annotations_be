@@ -7,6 +7,7 @@ import pl.edu.pw.mini.core.tools.MockLogger;
 import pl.edu.pw.mini.core.tools.StringWrapper;
 import pl.edu.pw.mini.users.LoginRequestDto;
 import pl.edu.pw.mini.users.LoginResponseDto;
+import pl.edu.pw.mini.users.external.LoginResponseExternal;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,11 +24,11 @@ public class UsersService {
     private TokenHandler tokenHandler;
 
     public StringWrapper login(LoginRequestDto loginRequestDto, HttpServletRequest request) {
-        String externalToken = usersRestInvoker.login(loginRequestExternalAssembler.toLoginRequestExternal(loginRequestDto)).getToken();
+        LoginResponseExternal externalResponse = usersRestInvoker.login(loginRequestExternalAssembler.toLoginRequestExternal(loginRequestDto));
         String jwtToken = tokenHandler.getTokenWithUser(MockLogger.getString("ID"),
                 MockLogger.getString("ANNOTATOR"),
-                MockLogger.getString("Jan Kowalski"),
-                externalToken,
+                externalResponse.getFirstName() + " " + externalResponse.getLastName(),
+                externalResponse.getToken(),
                 request
                 );
 
