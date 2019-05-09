@@ -1,6 +1,5 @@
 package pl.edu.pw.mini.users.external;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseExternal {
+    private Long id;
+    private String username;
     private String token;
-
-    @JsonProperty("fist_name")
-    private String firstName;
-
-    @JsonProperty("last_name")
-    private String lastName;
+    private String first_name;
+    private String last_name;
+    private Boolean is_annotator;
+    private Boolean is_superannotator;
 }
