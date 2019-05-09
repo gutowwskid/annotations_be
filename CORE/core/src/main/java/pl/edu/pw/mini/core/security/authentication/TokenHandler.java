@@ -6,15 +6,18 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 public class TokenHandler {
+    private static final String USER_ID = "userId";
+    private static final String PROFILE = "profile";
+    private static final String IP = "ip";
+    private static final String USER_NAME = "userName";
+    private static final String EXTERNAL_TOkEN = "externalToken";
 
     private final SecurityProperties properties;
     private final Key signingKey;
@@ -26,13 +29,15 @@ public class TokenHandler {
         signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
     }
 
-    public String getTokenWithUser(String userId, String profile, HttpServletRequest request) {
+    public String getTokenWithUser(String userId, String profile, String userName, String externalToken, HttpServletRequest request) {
         Date expires = new Date(System.currentTimeMillis() + properties.getTokenValidity());
 
         return Jwts.builder()
-                .claim("userId", userId)
-                .claim("profile", profile)
-                .claim("ip", request.getRemoteAddr())
+                .claim(USER_ID, userId)
+                .claim(PROFILE, profile)
+                .claim(IP, request.getRemoteAddr())
+                .claim(USER_NAME, userName)
+                .claim(EXTERNAL_TOkEN, externalToken)
                 .setExpiration(expires)
                 .setIssuer(properties.getIssuer())
                 .setIssuedAt(new Date())
@@ -47,9 +52,11 @@ public class TokenHandler {
         }
 
         return Token.builder()
-                .userId(claims.get("userId", String.class))
-                .profile(claims.get("profile", String.class))
-                .ip(claims.get("ip", String.class))
+                .userId(claims.get(USER_ID, String.class))
+                .profile(claims.get(PROFILE, String.class))
+                .userName(claims.get(USER_NAME, String.class))
+                .externalToken(claims.get(EXTERNAL_TOkEN, String.class))
+                .ip(claims.get(IP, String.class))
                 .expiration(claims.getExpiration())
                 .issuer(claims.getIssuer())
                 .issuedAt(claims.getIssuedAt())

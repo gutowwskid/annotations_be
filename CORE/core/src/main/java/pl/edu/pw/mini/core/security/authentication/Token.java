@@ -14,6 +14,9 @@ import java.util.Date;
 public class Token {
     private String userId;
     private String profile;
+    private String userName;
+    private String externalToken;
+
     private String ip;
     private Date expiration;
     private String issuer;

@@ -24,7 +24,7 @@ public class SwaggerConfiguration {
                         .modelRef(new ModelRef("string"))
                         .parameterType("header")
                         .required(false)
-                        .defaultValue("2eda507d6a9aada6eb20fc7d9c0ade9ed7867028")
+                        .defaultValue("eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJJRCIsInByb2ZpbGUiOiJBTk5PVEFUT1IiLCJpcCI6IjEyNy4wLjAuMSIsInVzZXJOYW1lIjoiSmFuIEtvd2Fsc2tpIiwiZXh0ZXJuYWxUb2tlbiI6IjJlZGE1MDdkNmE5YWFkYTZlYjIwZmM3ZDljMGFkZTllZDc4NjcwMjgiLCJleHAiOjE1ODg5MzA5OTMsImlzcyI6Im1pbmlfcHciLCJpYXQiOjE1NTczMDg1NDksImp0aSI6IjJhMWU4ZTA1LTQ3YjgtNGMyOC1hNWJhLTY2MzNhZjgzOTE5MyJ9.JOsAfKzmCHAzuiyHtHWPXzeUyYP8hRM4PCbeZzInruY")
                         .build())))
                 .select()
                 .apis(RequestHandlerSelectors.any())

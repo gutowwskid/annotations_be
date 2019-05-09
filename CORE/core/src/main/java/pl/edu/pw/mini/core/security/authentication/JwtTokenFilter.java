@@ -28,13 +28,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
+        Token token;
         try {
+            token = tokenHandler.parseToken(rawToken, request);
         } catch (Throwable ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
             return;
         }
 
-        SecurityContextHolder.getContext().setAuthentication(prepareContextFromJwtToken(rawToken));
+        SecurityContextHolder.getContext().setAuthentication(prepareContextFromJwtToken(token));
         filterChain.doFilter(request, response);
     }
 
@@ -46,10 +49,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return context;
     }
 
-    private Context prepareContextFromJwtToken(String token) {
+    private Context prepareContextFromJwtToken(Token token) {
         Context context = new Context();
-        context.setToken(Token.builder().tokenString(token).build());
-        context.setAuthorities(new ArrayList<>()); //TODO MOCK!
+        context.setUserId(token.getUserId());
+        context.setProfile(token.getProfile());
+        context.setToken(token);
+        context.setIp(token.getIp());
+        context.setAuthorities(Collections.singletonList(new SimpleGrantedAuthority(token.getProfile())));
+        context.setUserName(token.getUserName());
+        context.setExternalToken(token.getExternalToken());
         return context;
     }
 }

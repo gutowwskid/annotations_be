@@ -19,6 +19,8 @@ public class Context implements Authentication {
     private String profile;
     private Token token;
     private String ip;
+    private String userName;
+    private String externalToken;
     private List<SimpleGrantedAuthority> authorities;
 
     @Override

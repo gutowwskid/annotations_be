@@ -182,22 +182,7 @@ public class RestInvokerImpl implements RestInvoker {
             }
         }
         if(Objects.nonNull(token)) {
-            httpHeaders.add("Authorization", "Token " + token.getTokenString());
-        }
-    }
-
-    private void validateResponse(ResponseEntity<String> responseEntity, String url) {
-        if(Arrays.asList(HttpStatus.UNAUTHORIZED,
-                HttpStatus.FORBIDDEN,
-                HttpStatus.NOT_FOUND,
-                HttpStatus.INTERNAL_SERVER_ERROR)
-            .contains(responseEntity.getStatusCode())) {
-            throw new BusinessException(responseEntity.getStatusCode().name(), "Unexpected response from remote enpoint");
-        }
-
-        MediaType mediaType = responseEntity.getHeaders().getContentType();
-        if(!Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8).contains(mediaType)) {
-            log.warn("Wrong mediaType, expected JSON, actual: " + mediaType);
+            httpHeaders.add("Authorization", "Token " + token.getExternalToken());
         }
     }
 }

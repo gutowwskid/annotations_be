@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.core.invoker.rest.RestInvoker;
 import pl.edu.pw.mini.users.LoginRequestDto;
 import pl.edu.pw.mini.users.LoginResponseDto;
+import pl.edu.pw.mini.users.external.LoginRequestExternal;
+import pl.edu.pw.mini.users.external.LoginResponseExternal;
 
 import java.util.Collections;
 
@@ -14,7 +16,7 @@ public class UsersRestInvoker {
     @Autowired
     private RestInvoker restInvoker;
 
-    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
-        return restInvoker.post("/users/login", Collections.emptyMap(), loginRequestDto, LoginResponseDto.class);
+    public LoginResponseExternal login(LoginRequestExternal loginRequestExternal) {
+        return restInvoker.post("/users/login", Collections.emptyMap(), loginRequestExternal, LoginResponseExternal.class);
     }
 }
