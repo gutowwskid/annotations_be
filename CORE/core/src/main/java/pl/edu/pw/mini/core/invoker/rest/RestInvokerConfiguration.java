@@ -1,5 +1,6 @@
 package pl.edu.pw.mini.core.invoker.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.HttpClient;
@@ -81,7 +82,7 @@ public class RestInvokerConfiguration {
     @Rest
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     @Bean
