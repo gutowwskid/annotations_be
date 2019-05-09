@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.common.external.ListResponseExternal;
+import pl.edu.pw.mini.core.invoker.rest.Rest;
 import pl.edu.pw.mini.core.invoker.rest.RestInvoker;
 import pl.edu.pw.mini.core.tools.FluentMapBuilder;
 import pl.edu.pw.mini.publications.external.PageInfoExternal;
@@ -21,12 +22,14 @@ public class PublicationsRestInvoker {
     @Autowired
     private RestInvoker restInvoker;
 
+    @Rest
     @Autowired
     private ObjectMapper objectMapper;
 
     public ListResponseExternal<PublicationInfoExternal> getPublicationList(PublicationSearchCriteriaExternal searchCriteriaExternal) {
         Map<String, String> params = objectMapper.convertValue(searchCriteriaExternal, new TypeReference<Map<String, String>>() {});
-        return restInvoker.get("/publications", params, new ParameterizedTypeReference<ListResponseExternal<PublicationInfoExternal>>() {});
+        String url = restInvoker.createRequestUrl("/publications", params);
+        return restInvoker.get(url, params, new ParameterizedTypeReference<ListResponseExternal<PublicationInfoExternal>>() {});
     }
 
     public PublicationInfoExternal getPublicationDetails(String id) {
@@ -36,6 +39,7 @@ public class PublicationsRestInvoker {
 
     public ListResponseExternal<PageInfoExternal> getPublicationPages(PagesSearchCriteriaExternal searchCriteriaExternal) {
         Map<String, String> params = objectMapper.convertValue(searchCriteriaExternal, new TypeReference<Map<String, String>>() {});
-        return restInvoker.get("/publications/pages", params, new ParameterizedTypeReference<ListResponseExternal<PageInfoExternal>>() {});
+        String url = restInvoker.createRequestUrl("/publications/pages", params);
+        return restInvoker.get(url, params, new ParameterizedTypeReference<ListResponseExternal<PageInfoExternal>>() {});
     }
 }

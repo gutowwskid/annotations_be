@@ -160,6 +160,29 @@ public class RestInvokerImpl implements RestInvoker {
         return null;
     }
 
+    @Override
+    public String createRequestUrl(String url, Map<String, String> params) {
+        if(params.isEmpty()) {
+            return url;
+        }
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(url);
+        boolean isFirstParameter = true;
+        for(String param : params.keySet()) {
+            if(isFirstParameter) {
+                buffer.append("?");
+                isFirstParameter = false;
+            } else {
+                buffer.append("&");
+            }
+            buffer.append(param);
+            buffer.append("={");
+            buffer.append(param);
+            buffer.append("}");
+        }
+        return buffer.toString();
+    }
+
     private <T> HttpEntity<T> createHttpEntity(T body, Token token) {
         HttpHeaders httpHeaders = createHttpHeaders();
         addTokenToHeaders(httpHeaders, token);

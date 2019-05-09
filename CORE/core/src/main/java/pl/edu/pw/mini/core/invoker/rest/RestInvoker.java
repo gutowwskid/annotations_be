@@ -42,5 +42,7 @@ public interface RestInvoker {
 
     <T> T delete(String url, Map<String, String> params, Class<T> responseType, Token token);
     <T> T delete(String url, Map<String, String> params, ParameterizedTypeReference<T> responseTypeReference, Token token);
+
+    String createRequestUrl(String url, Map<String, String> params);
 }
 
