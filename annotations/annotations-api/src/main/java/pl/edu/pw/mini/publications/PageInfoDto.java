@@ -11,6 +11,6 @@ public class PageInfoDto {
     private Long id;
     private Long publicationId;
     private Long number;
-    private String status;
+    private PageStatus status;
     private String imageUrl;
 }

@@ -11,6 +11,6 @@ public class PageInfoExternal {
     private Long id;
     private Long publication;
     private Long number;
-    private String status;
+    private String annotation_status;
     private String image;
 }

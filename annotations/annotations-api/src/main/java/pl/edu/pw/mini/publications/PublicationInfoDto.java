@@ -17,6 +17,6 @@ public class PublicationInfoDto {
     private String url;
     private String sourceUrl;
     private LocalDate publicationDate;
-    private String status;
+    private DocumentStatus status;
 
 }

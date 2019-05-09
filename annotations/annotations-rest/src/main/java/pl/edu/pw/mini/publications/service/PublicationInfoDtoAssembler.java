@@ -3,6 +3,7 @@ package pl.edu.pw.mini.publications.service;
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.core.tools.DateUtils;
 import pl.edu.pw.mini.core.tools.DtoAssebler;
+import pl.edu.pw.mini.publications.DocumentStatus;
 import pl.edu.pw.mini.publications.PublicationInfoDto;
 import pl.edu.pw.mini.publications.external.PublicationInfoExternal;
 
@@ -21,7 +22,7 @@ public class PublicationInfoDtoAssembler extends DtoAssebler<PublicationInfoExte
         dto.setUrl(input.getLocal_file());
         dto.setSourceUrl(input.getRemote_file());
         Optional.of(input).map(PublicationInfoExternal::getPublication_date).map(DateUtils::toLocalDate).ifPresent(dto::setPublicationDate);
-        dto.setStatus(input.getStatus());
+        Optional.of(input).map(PublicationInfoExternal::getStatus).map(DocumentStatus::getByLabel).ifPresent(dto::setStatus);
         return dto;
     }
 }
