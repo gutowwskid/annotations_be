@@ -1,11 +1,12 @@
 package pl.edu.pw.mini.core.invoker.rest;
 
-import org.springframework.http.HttpStatus;
+import com.google.common.io.CharStreams;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 import pl.edu.pw.mini.core.exceptions.BusinessException;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
@@ -21,10 +22,7 @@ public class RestResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
-        if(clientHttpResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
-            throw new BusinessException("404", "Invalid external Endpoint!");
-        } else {
-            throw new BusinessException(clientHttpResponse.getStatusCode().toString(), "External Service Error!");
-        }
+        String body = CharStreams.toString(new InputStreamReader(clientHttpResponse.getBody()));
+        throw new BusinessException(clientHttpResponse.getStatusCode().toString(), "External Service Error: " + body);
     }
 }
