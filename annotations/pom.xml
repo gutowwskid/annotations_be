@@ -5,12 +5,8 @@
     
     <groupId>pl.edu.pw.mini</groupId>
     <artifactId>annotations</artifactId>
-    <version>${annotations.version}</version>
+    <version>0.1.0</version>
     <packaging>pom</packaging>
-	
-	<properties>
-        <annotations.version>0.0.1-SNAPSHOT</annotations.version>
-    </properties>
 
   <modules>
       <module>annotations-rest</module>

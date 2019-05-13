@@ -6,28 +6,29 @@
     <parent>
         <groupId>pl.edu.pw.mini</groupId>
         <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1.0</version>
+        <relativePath></relativePath>
     </parent>
     
     <groupId>pl.edu.pw.mini</groupId>
     <artifactId>annotations-rest</artifactId>
-    <version>${annotations.version}</version>
+    <version>0.1.0</version>
 
     <dependencies>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>core</artifactId>
-            <version>${annotations.version}</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>api-core</artifactId>
-            <version>${annotations.version}</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>annotations-api</artifactId>
-            <version>${annotations.version}</version>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 
@@ -36,6 +37,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
