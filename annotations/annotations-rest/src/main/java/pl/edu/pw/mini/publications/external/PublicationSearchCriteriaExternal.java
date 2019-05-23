@@ -20,4 +20,7 @@ public class PublicationSearchCriteriaExternal extends ListRequestExternal {
     private Date publication_date_after;
     private String source;
     private String status;
+    private Boolean annotated_by_me;
+    private Long min_annotators;
+    private Long max_annotators;
 }

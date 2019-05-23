@@ -48,6 +48,9 @@ public class PublicationSearchCriteriaExternalAssembler {
 
         Optional.of(request).map(JsonListRequest::getSearchCriteria).map(PublicationSearchCriteria::getSource).ifPresent(external::setSource);
         Optional.of(request).map(JsonListRequest::getSearchCriteria).map(PublicationSearchCriteria::getStatus).ifPresent(external::setStatus);
+        Optional.of(request).map(JsonListRequest::getSearchCriteria).map(PublicationSearchCriteria::getAnnotatedByMe).ifPresent(external::setAnnotated_by_me);
+        Optional.of(request).map(JsonListRequest::getSearchCriteria).map(PublicationSearchCriteria::getMaxAnnotators).ifPresent(external::setMax_annotators);
+        Optional.of(request).map(JsonListRequest::getSearchCriteria).map(PublicationSearchCriteria::getMinAnnotators).ifPresent(external::setMin_annotators);
 
         return external;
     }

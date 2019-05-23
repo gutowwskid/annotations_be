@@ -14,4 +14,7 @@ public class PublicationSearchCriteria {
     private Period publicationPeriod;
     private String source;
     private String status;
+    private Boolean annotatedByMe;
+    private Long minAnnotators;
+    private Long maxAnnotators;
 }
