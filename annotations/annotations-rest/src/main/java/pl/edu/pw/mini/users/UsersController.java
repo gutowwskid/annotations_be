@@ -22,4 +22,10 @@ public class UsersController {
     public StringWrapper login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request) {
         return usersService.login(loginRequestDto, request);
     }
+
+    @AllowAll
+    @RequestMapping(path = "/users/register", method = RequestMethod.POST, produces = "application/json")
+    public void register(@RequestBody RegisterRequestDto registerRequestDto) {
+        usersService.register(registerRequestDto);
+    }
 }

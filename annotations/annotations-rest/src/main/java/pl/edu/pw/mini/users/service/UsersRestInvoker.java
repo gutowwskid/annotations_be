@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.core.invoker.rest.RestInvoker;
 import pl.edu.pw.mini.users.external.LoginRequestExternal;
+import pl.edu.pw.mini.users.external.RegisterRequestEternal;
 import pl.edu.pw.mini.users.external.UserExternal;
 
 import java.util.Collections;
@@ -16,5 +17,9 @@ public class UsersRestInvoker {
 
     public UserExternal login(LoginRequestExternal loginRequestExternal) {
         return restInvoker.post("/users/login", Collections.emptyMap(), loginRequestExternal, UserExternal.class);
+    }
+
+    public void register(RegisterRequestEternal registerRequestEternal) {
+        restInvoker.post("/users/register", Collections.emptyMap(), registerRequestEternal, Void.class);
     }
 }

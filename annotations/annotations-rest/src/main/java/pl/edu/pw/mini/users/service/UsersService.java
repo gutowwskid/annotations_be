@@ -6,6 +6,8 @@ import pl.edu.pw.mini.core.security.authentication.TokenHandler;
 import pl.edu.pw.mini.core.tools.StringWrapper;
 import pl.edu.pw.mini.model.Profile;
 import pl.edu.pw.mini.users.LoginRequestDto;
+import pl.edu.pw.mini.users.RegisterRequestDto;
+import pl.edu.pw.mini.users.external.RegisterRequestEternal;
 import pl.edu.pw.mini.users.external.UserExternal;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,9 @@ public class UsersService {
 
     @Autowired
     private LoginRequestExternalAssembler loginRequestExternalAssembler;
+
+    @Autowired
+    private RegisterRequestEternalAssembler registerRequestEternalAssembler;
 
     @Autowired
     private TokenHandler tokenHandler;
@@ -42,5 +47,10 @@ public class UsersService {
             return Profile.ANNOTATOR;
         }
         return Profile.USER;
+    }
+
+    public void register(RegisterRequestDto registerRequest) {
+        RegisterRequestEternal registerRequestEternal = registerRequestEternalAssembler.toExternal(registerRequest);
+        usersRestInvoker.register(registerRequestEternal);
     }
 }
