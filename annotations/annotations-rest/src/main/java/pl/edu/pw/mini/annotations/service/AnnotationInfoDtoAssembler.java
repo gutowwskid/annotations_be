@@ -13,6 +13,7 @@ import pl.edu.pw.mini.core.tools.DtoAssembler;
 import pl.edu.pw.mini.users.UserDto;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Component
@@ -34,16 +35,9 @@ public class AnnotationInfoDtoAssembler extends DtoAssembler<AnnotationInfoExter
                 ifPresent(dto::setCreator);
         dto.setStatus(input.getAnnotation_status());
         Optional.of(input).map(AnnotationInfoExternal::getCreated).map(DateUtils::toLocalDate).ifPresent(dto::setCreationDate);
-        dto.setData(input.getData());
         dto.setPageId(input.getPage());
-/*
-        try {
-            AnnotationDto annotationDto = objectMapper.readValue(input.getData(), AnnotationDto.class);
-            dto.setData(annotationDto);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new BusinessException("DESERIALIZATION_ERROR", e.getMessage());
-        }*/
+        dto.setTags(input.getTags());
+        dto.setData(objectMapper.convertValue(input.getData(), AnnotationDto.class));
         return dto;
     }
 }

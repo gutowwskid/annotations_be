@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import pl.edu.pw.mini.users.UserDto;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class AnnotationInfoDto {
     private String status; //TODO enum
     private LocalDate creationDate;
     private AnnotationDto data;
+    private List<String> tags;
 }
