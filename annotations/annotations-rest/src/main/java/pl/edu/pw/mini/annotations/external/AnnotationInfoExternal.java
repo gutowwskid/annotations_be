@@ -17,7 +17,7 @@ public class AnnotationInfoExternal {
     private Long id;
     private UserExternal user;
     private Long page;
-    private Map<String, Object> data;
+    private Object data;
     private Date created;
     private Boolean is_used;
     private String annotation_status;
