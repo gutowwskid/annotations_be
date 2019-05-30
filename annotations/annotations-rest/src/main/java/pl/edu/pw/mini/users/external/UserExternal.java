@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserExternal {
     private Long id;
     private String username;
-    private String token;
     private String email;
     private String first_name;
     private String last_name;
