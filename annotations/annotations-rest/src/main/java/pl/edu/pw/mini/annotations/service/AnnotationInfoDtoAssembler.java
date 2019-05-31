@@ -10,6 +10,8 @@ import pl.edu.pw.mini.core.tools.DateUtils;
 import pl.edu.pw.mini.core.tools.DtoAssembler;
 import pl.edu.pw.mini.users.UserDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -36,7 +38,7 @@ public class AnnotationInfoDtoAssembler extends DtoAssembler<AnnotationInfoExter
         Optional.of(input).map(AnnotationInfoExternal::getCreated).map(DateUtils::toLocalDate).ifPresent(dto::setCreationDate);
         dto.setPageId(input.getPage());
         dto.setTags(input.getTags());
-        dto.setData(genericAnnotationDeserializer.deserialize(input.getData()));
+        genericAnnotationDeserializer.deserialize(input.getData()).ifPresent(dto::setData);
         return dto;
     }
 }

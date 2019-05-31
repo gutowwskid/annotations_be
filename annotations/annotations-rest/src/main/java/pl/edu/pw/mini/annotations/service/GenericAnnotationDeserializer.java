@@ -2,105 +2,108 @@ package pl.edu.pw.mini.annotations.service;
 
 import org.springframework.stereotype.Component;
 import pl.edu.pw.mini.annotations.AnnotationDto;
+import pl.edu.pw.mini.core.tools.StringUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
 public class GenericAnnotationDeserializer {
 
-    public AnnotationDto deserialize(Object object) {
-        AnnotationDto dto = new AnnotationDto();
-        if(object instanceof Collection<?>) {
-            Collection<Map<String, Object>> objectCollection = (Collection<Map<String, Object>>) object;
-            if(objectCollection.isEmpty()) {
-                return dto;
-            } else if(objectCollection.size() == 1) {
-                return deserialize(objectCollection.stream().findAny().get());
-            } else {
-                setError(dto, "Annotation is a Collection!");
-            }
-        } else if(object instanceof Map<?, ?>) {
+    public Optional<AnnotationDto> deserialize(Object object) {
+        List<String> errors = new ArrayList<>();
+        Optional<AnnotationDto> dto = deserializeObjectFromList(object, errors, AnnotationDto.class, this::annotationDtoConverter);
+        return dto.isPresent() ? dto : Optional.of(AnnotationDto.builder().errors(errors).build());
+    }
+
+    private Optional<AnnotationDto> annotationDtoConverter(Object object) {
+        if(object instanceof Map<?, ?>) {
+            AnnotationDto dto = new AnnotationDto();
             Map<String, Object> mapObject = (Map<String, Object>) object;
-            dto.setText(deserializeString(mapObject, "text"));
-            dto.setX1(deserializeDouble(mapObject, "x1", dto));
-            dto.setX2(deserializeDouble(mapObject, "x2", dto));
-            dto.setY1(deserializeDouble(mapObject, "y1", dto));
-            dto.setY2(deserializeDouble(mapObject, "y2", dto));
-            dto.setType(deserializeListString(mapObject, "type", dto));
-            dto.setSubRegions(deserializeListAnnotation(mapObject, "subRegions", dto));
+            deserializeObjectFromList(mapObject.get("text"), dto.getErrors(), String.class, this::stringConverter).ifPresent(dto::setText);
+            deserializeObjectFromList(mapObject.get("x1"), dto.getErrors(), Double.class, this::doubleConverter).ifPresent(dto::setX1);
+            deserializeObjectFromList(mapObject.get("x2"), dto.getErrors(), Double.class, this::doubleConverter).ifPresent(dto::setX2);
+            deserializeObjectFromList(mapObject.get("y1"), dto.getErrors(), Double.class, this::doubleConverter).ifPresent(dto::setY1);
+            deserializeObjectFromList(mapObject.get("y2"), dto.getErrors(), Double.class, this::doubleConverter).ifPresent(dto::setY2);
+            deserializeList(mapObject.get("type"), dto.getErrors(), String.class, this::stringConverter).ifPresent(dto::setType);
+            deserializeList(mapObject.get("subRegions"), dto.getErrors(), AnnotationDto.class, this::deserialize).ifPresent(dto::setSubRegions);
+            deserializeList(mapObject.get("references"), dto.getErrors(), Long.class, this::longConverter).ifPresent(dto::setReferences);
+            dto.setAdditionalInfo(mapObject.get("additionalInfo"));
+            return Optional.of(dto);
         } else {
-            setError(dto, "Unrecognized annotation!");
-            return dto;
-        }
-        return dto;
-    }
-    private String deserializeString(Map<String, Object> mapObject, String name) {
-        Object value = mapObject.get(name);
-        if(Objects.isNull(value)) {
-            return null;
-        }
-        if(value instanceof String) {
-            return (String) value;
-        } else {
-            return value.toString();
+            return Optional.empty();
         }
     }
 
-    private Double deserializeDouble(Map<String, Object> mapObject, String name, AnnotationDto dto) {
-        Object value = mapObject.get(name);
-        if(Objects.isNull(value)) {
-            return null;
+    private <T> Optional<T> deserializeObjectFromList(Object object, List<String> errors, Class<T> tClass, Function<Object, Optional<T>> converter) {
+        if(Objects.isNull(object)) {
+            return Optional.empty();
         }
-        if(value instanceof Double) {
-            return (Double) value;
-        } else {
-            setError(dto, "Invalid property: " + name);
-            return null;
-        }
-    }
-
-    private List<String> deserializeListString(Map<String, Object> mapObject, String name, AnnotationDto dto) {
-        Object value = mapObject.get(name);
-        if(Objects.isNull(value)) {
-            return null;
-        }
-        if(value instanceof Collection<?>) {
-            Collection<?> collectionValue = (Collection<?>) value;
-            if(collectionValue.isEmpty()) {
-                return null;
-            } else if(collectionValue.stream().findAny().get() instanceof String) {
-                return collectionValue.stream().map(s -> (String) s).collect(Collectors.toList());
-            } else {
-                setError(dto, "Invalid field: type, found Collection<?>, required: List<String>");
-                return null;
+        if(object instanceof Collection<?>) {
+            Collection<?> collectionValue = (Collection<?>) object;
+            if (collectionValue.isEmpty()) {
+                return Optional.empty();
             }
-        } else if(value instanceof String) {
-            return Collections.singletonList((String) value);
+            if(collectionValue.size() == 1) {
+                return deserializeObject(collectionValue.stream().findAny(), errors, tClass, converter);
+            } else {
+                errors.add("Cannot deserialize! Expected: Object, found List<Object>");
+                return Optional.empty();
+            }
         } else {
-            setError(dto, "Invalid type, found Object, required: List<String>");
-            return null;
+            return deserializeObject(object, errors, tClass, converter);
         }
     }
 
-    private List<AnnotationDto> deserializeListAnnotation(Map<String, Object> mapObject, String name, AnnotationDto dto) {
-        Object value = mapObject.get(name);
-        if(Objects.isNull(value)) {
-            return null;
-        }
-        if(value instanceof Collection<?>) {
-            return ((Collection<Object>) value).stream().map(this::deserialize).collect(Collectors.toList());
-        } else if(value instanceof AnnotationDto) {
-            return Collections.singletonList(deserialize(value));
+    private <T> Optional<T> deserializeObject(Object object, List<String> errors, Class<T> tClass, Function<Object, Optional<T>> converter) {
+        if(Objects.isNull(object)) {
+            return Optional.empty();
+        } if(tClass.isInstance(object)) {
+            return Optional.of(tClass.cast(object));
         } else {
-            return null;
+            if(Objects.nonNull(converter)) {
+                Optional<T> convertedObject = converter.apply(object);
+                if(convertedObject.isPresent()) {
+                    return convertedObject;
+                }
+            }
+            errors.add("Cannot deserialize object as " + tClass.toString());
+            return Optional.empty();
         }
     }
 
-    private void setError(AnnotationDto dto, String error) {
-        if(Objects.isNull(dto.getErrors())) {
-            dto.setErrors(new ArrayList<>());
+    private <T> Optional<List<T>> deserializeList(Object object, List<String> errors, Class<T> tClass, Function<Object, Optional<T>> converter) {
+        if(Objects.isNull(object)) {
+            return Optional.empty();
         }
-        dto.getErrors().add(error);
+        if(object instanceof Collection<?>) {
+            Collection<?> collectionValue = (Collection<?>) object;
+            if(collectionValue.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(collectionValue.stream().map(o -> deserializeObject(o, errors, tClass, converter)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+        }  else {
+            return deserializeObject(object, errors, tClass, converter).map(Collections::singletonList);
+        }
+    }
+
+    private Optional<String> stringConverter(Object object) {
+        return Optional.ofNullable(object).map(StringUtils::toString);
+    }
+
+    private Optional<Double> doubleConverter(Object object) {
+        try {
+            return stringConverter(object).map(Double::new);
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
+    private Optional<Long> longConverter(Object object) {
+        try {
+            return stringConverter(object).map(Long::new);
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 }

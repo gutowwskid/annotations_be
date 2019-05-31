@@ -13,4 +13,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
         }
         return false;
     }
+    public static String toString(Object object) {
+        return object.toString();
+    }
 }

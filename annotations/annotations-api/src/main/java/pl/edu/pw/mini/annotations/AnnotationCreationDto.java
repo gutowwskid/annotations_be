@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -14,4 +15,6 @@ public class AnnotationCreationDto {
     private AnnotationDto annotation;
     private List<Long> annotationsUsed;
     private List<String> tags;
+    private List<Long> references;
+    private Map<String, Object> additionalInfo;
 }

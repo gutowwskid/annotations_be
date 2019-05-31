@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +21,9 @@ public class AnnotationDto {
     private Double y2;
     private String text;
     private List<AnnotationDto> subRegions;
+    private List<Long> references;
+    private Object additionalInfo;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> errors;
 }
