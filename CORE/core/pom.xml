@@ -5,13 +5,13 @@
     <parent>
         <groupId>pl.edu.pw.mini</groupId>
         <artifactId>parent</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>pl.edu.pw.mini</groupId>
     <artifactId>core</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 
     <dependencies>
         <dependency>

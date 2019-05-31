@@ -6,29 +6,29 @@
     <parent>
         <groupId>pl.edu.pw.mini</groupId>
         <artifactId>parent</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
         <relativePath></relativePath>
     </parent>
     
     <groupId>pl.edu.pw.mini</groupId>
     <artifactId>annotations-rest</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 
     <dependencies>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>core</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>api-core</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>pl.edu.pw.mini</groupId>
             <artifactId>annotations-api</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
     </dependencies>
 
