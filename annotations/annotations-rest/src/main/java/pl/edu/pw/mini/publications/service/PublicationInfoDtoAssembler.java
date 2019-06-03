@@ -22,7 +22,7 @@ public class PublicationInfoDtoAssembler extends DtoAssembler<PublicationInfoExt
         dto.setUrl(input.getLocal_file());
         dto.setSourceUrl(input.getRemote_file());
         Optional.of(input).map(PublicationInfoExternal::getPublication_date).map(DateUtils::toLocalDate).ifPresent(dto::setPublicationDate);
-        Optional.of(input).map(PublicationInfoExternal::getStatus).map(DocumentStatus::getByLabel).ifPresent(dto::setStatus);
+        Optional.of(input).map(PublicationInfoExternal::getAnnotation_status).map(DocumentStatus::getByLabel).ifPresent(dto::setStatus);
         return dto;
     }
 }

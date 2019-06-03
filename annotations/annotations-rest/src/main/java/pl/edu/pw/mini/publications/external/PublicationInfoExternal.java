@@ -17,5 +17,5 @@ public class PublicationInfoExternal {
     private String local_file;
     private String remote_file;
     private Date publication_date;
-    private String status;
+    private String annotation_status;
 }
