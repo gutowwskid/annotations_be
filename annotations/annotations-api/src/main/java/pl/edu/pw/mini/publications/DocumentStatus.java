@@ -9,9 +9,10 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public enum DocumentStatus {
-    DOWNLOADING("downloading"),
-    DONE("done"),
-    DOWNLOAD_FAILED("download_failed");
+    NEW("0:new"),
+    AUTO_ANNOTATED("1:auto_annotated"),
+    ANNOTATED("2:annotated"),
+    SUPER_ANNOTATED("3:super_annotated");
 
     private String label;
 
